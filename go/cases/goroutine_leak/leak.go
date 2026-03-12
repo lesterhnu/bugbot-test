@@ -2,20 +2,23 @@ package goroutineleak
 
 import (
 	"fmt"
-	"time"
+	"sync"
 )
 
-// Run starts goroutines that can block forever, simulating a potential leak.
+// Run starts workers and guarantees they can all exit.
 func Run() {
 	ch := make(chan struct{})
+	var wg sync.WaitGroup
 
 	for i := 0; i < 3; i++ {
+		wg.Add(1)
 		go func(id int) {
-			fmt.Printf("[goroutine_leak] worker %d waiting forever\n", id)
-			<-ch // Bug pattern: no sender/close path, goroutine can never exit.
+			defer wg.Done()
+			fmt.Printf("[goroutine_leak] worker %d waiting for shutdown signal\n", id)
+			<-ch
 		}(i)
 	}
 
-	// Sleep briefly so leaked goroutines are visible in runtime behavior.
-	time.Sleep(50 * time.Millisecond)
+	close(ch)
+	wg.Wait()
 }
