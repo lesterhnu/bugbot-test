@@ -1,0 +1,39 @@
+# OS-generated files
+.DS_Store
+Thumbs.db
+
+# Editor/IDE settings
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Logs and temp files
+*.log
+*.tmp
+*.temp
+
+# Environment and local secrets
+.env
+.env.*
+!.env.example
+
+# Go build outputs and test artifacts
+go/bin/
+go/pkg/
+go/coverage.out
+go/*.test
+go/bugbot
+
+# C/C++ build outputs
+cplusplus/bugbot
+cplusplus/build/
+
+# CMake-generated files (in case of in-source builds)
+CMakeCache.txt
+CMakeFiles/
+cmake_install.cmake
+compile_commands.json
+Makefile
+
